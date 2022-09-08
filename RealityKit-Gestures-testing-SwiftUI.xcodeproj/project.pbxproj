@@ -12,6 +12,7 @@
 		9CA2952E28CA88DA00642FA0 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 9CA2952D28CA88DA00642FA0 /* Experience.rcproject */; };
 		9CA2953028CA88DB00642FA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CA2952F28CA88DB00642FA0 /* Assets.xcassets */; };
 		9CA2953328CA88DB00642FA0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CA2953228CA88DB00642FA0 /* Preview Assets.xcassets */; };
+		9CA2953A28CA899E00642FA0 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA2953928CA899E00642FA0 /* Coordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		9CA2952D28CA88DA00642FA0 /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		9CA2952F28CA88DB00642FA0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9CA2953228CA88DB00642FA0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9CA2953928CA899E00642FA0 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				9CA2952928CA88DA00642FA0 /* AppDelegate.swift */,
 				9CA2952B28CA88DA00642FA0 /* ContentView.swift */,
+				9CA2953928CA899E00642FA0 /* Coordinator.swift */,
 				9CA2952D28CA88DA00642FA0 /* Experience.rcproject */,
 				9CA2952F28CA88DB00642FA0 /* Assets.xcassets */,
 				9CA2953128CA88DB00642FA0 /* Preview Content */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA2953A28CA899E00642FA0 /* Coordinator.swift in Sources */,
 				9CA2952C28CA88DA00642FA0 /* ContentView.swift in Sources */,
 				9CA2952A28CA88DA00642FA0 /* AppDelegate.swift in Sources */,
 				9CA2952E28CA88DA00642FA0 /* Experience.rcproject in Sources */,
