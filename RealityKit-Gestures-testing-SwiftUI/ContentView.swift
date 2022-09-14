@@ -7,8 +7,13 @@
 
 import SwiftUI
 import RealityKit
+import RealityUI
 
 struct ContentView : View {
+
+    
+
+    
     var body: some View {
         return ARViewContainer().edgesIgnoringSafeArea(.all)
     }
@@ -17,7 +22,7 @@ struct ContentView : View {
 struct ARViewContainer: UIViewRepresentable {
     
     func makeUIView(context: Context) -> ARView {
-        
+
         let arView = ARView(frame: .zero)
         arView.addGestureRecognizer(UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap)))
         
@@ -25,13 +30,63 @@ struct ARViewContainer: UIViewRepresentable {
         arView.session.delegate = context.coordinator
         
         let anchor = AnchorEntity(plane: .horizontal)
+        let anchor2 = AnchorEntity(plane: .horizontal)
+        let anchor3 = AnchorEntity(plane: .horizontal)
+        let anchor4 = AnchorEntity(plane: .horizontal)
         
-        let box = ModelEntity(mesh: MeshResource.generateBox(size: 0.3), materials: [SimpleMaterial(color: .blue, isMetallic: true)])
+        RealityUI.registerComponents()
+        RealityUI.enableGestures(.all, on: arView)
+        
+        let box = ModelEntity(mesh: MeshResource.generateBox(size: 0.1), materials: [SimpleMaterial(color: .red, isMetallic: true)])
         
         box.generateCollisionShapes(recursive: true)
         
-        anchor.addChild(box)
+        let newSwitch = RUISwitch(
+          RUI: RUIComponent(respondsToLighting: true),
+          changedCallback: { mySwitch in
+              box.model?.materials = [
+              SimpleMaterial(
+                color: mySwitch.isOn ? .green : .red,
+                isMetallic: true
+              )
+            ]
+          }
+        )
+        
+        newSwitch.transform = Transform(
+          scale: .init(repeating: 0.15), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0, 0.20, -0.25]
+        )
+        
+        let stepper = RUIStepper(upTrigger: { _ in
+          print("positive tapped")
+        }, downTrigger: { _ in
+          print("negative tapped")
+        })
+        
+        stepper.transform = Transform(
+            scale: .init(repeating: 0.15), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0.5, 0.20, -0.25]
+        )
+        
+        let newSlider = RUISlider(
+          slider: SliderComponent(startingValue: 0.5, isContinuous: true)
+        ) { (slider, _) in
+            box.scale.x = slider.value + 0.5
+        }
+        
+        newSlider.transform = Transform(
+          scale: .init(repeating: 0.10), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0, 0.50, -0.25]
+        )
+        
+        
+        anchor.addChild(newSwitch)
+        anchor2.addChild(box)
+        anchor3.addChild(stepper)
+        anchor4.addChild(newSlider)
+        
         arView.scene.anchors.append(anchor)
+        arView.scene.anchors.append(anchor2)
+        arView.scene.anchors.append(anchor3)
+        arView.scene.anchors.append(anchor4)
         
         return arView
         

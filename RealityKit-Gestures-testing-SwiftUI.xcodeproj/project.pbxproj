@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C9B1A9F28D2562C00ED4EE3 /* RealityUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9C9B1A9E28D2562C00ED4EE3 /* RealityUI */; };
 		9CA2952A28CA88DA00642FA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA2952928CA88DA00642FA0 /* AppDelegate.swift */; };
 		9CA2952C28CA88DA00642FA0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA2952B28CA88DA00642FA0 /* ContentView.swift */; };
 		9CA2952E28CA88DA00642FA0 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 9CA2952D28CA88DA00642FA0 /* Experience.rcproject */; };
@@ -30,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C9B1A9F28D2562C00ED4EE3 /* RealityUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +91,9 @@
 			dependencies = (
 			);
 			name = "RealityKit-Gestures-testing-SwiftUI";
+			packageProductDependencies = (
+				9C9B1A9E28D2562C00ED4EE3 /* RealityUI */,
+			);
 			productName = "RealityKit-Gestures-testing-SwiftUI";
 			productReference = 9CA2952628CA88DA00642FA0 /* RealityKit-Gestures-testing-SwiftUI.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +122,9 @@
 				Base,
 			);
 			mainGroup = 9CA2951D28CA88DA00642FA0;
+			packageReferences = (
+				9C9B1A9D28D2562C00ED4EE3 /* XCRemoteSwiftPackageReference "RealityUI" */,
+			);
 			productRefGroup = 9CA2952728CA88DA00642FA0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -351,6 +359,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9C9B1A9D28D2562C00ED4EE3 /* XCRemoteSwiftPackageReference "RealityUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maxxfrazer/RealityUI.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9C9B1A9E28D2562C00ED4EE3 /* RealityUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9C9B1A9D28D2562C00ED4EE3 /* XCRemoteSwiftPackageReference "RealityUI" */;
+			productName = RealityUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9CA2951E28CA88DA00642FA0 /* Project object */;
 }
