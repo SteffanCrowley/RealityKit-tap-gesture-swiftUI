@@ -11,12 +11,11 @@ import RealityUI
 
 struct ContentView : View {
 
-    
 
-    
     var body: some View {
         return ARViewContainer().edgesIgnoringSafeArea(.all)
     }
+    
 }
 
 struct ARViewContainer: UIViewRepresentable {
@@ -29,64 +28,86 @@ struct ARViewContainer: UIViewRepresentable {
         context.coordinator.view = arView
         arView.session.delegate = context.coordinator
         
-        let anchor = AnchorEntity(plane: .horizontal)
-        let anchor2 = AnchorEntity(plane: .horizontal)
-        let anchor3 = AnchorEntity(plane: .horizontal)
-        let anchor4 = AnchorEntity(plane: .horizontal)
         
         RealityUI.registerComponents()
         RealityUI.enableGestures(.all, on: arView)
         
-        let box = ModelEntity(mesh: MeshResource.generateBox(size: 0.1), materials: [SimpleMaterial(color: .red, isMetallic: true)])
-        
-        box.generateCollisionShapes(recursive: true)
-        
-        let newSwitch = RUISwitch(
-          RUI: RUIComponent(respondsToLighting: true),
-          changedCallback: { mySwitch in
-              box.model?.materials = [
-              SimpleMaterial(
-                color: mySwitch.isOn ? .green : .red,
-                isMetallic: true
-              )
+        let testAnchor = AnchorEntity(world: [0, 0, -1])
+
+        let clickySphere = ClickyEntity(
+          model: ModelComponent(mesh: .generateBox(size: 0.2), materials: [SimpleMaterial(color: .red, isMetallic: false)])
+        ) {
+            (clickedObj, atPosition) in
+            // In this example we're just assigning the colour of the clickable
+            // entity model to a green SimpleMaterial.
+            (clickedObj as? HasModel)?.model?.materials = [
+                SimpleMaterial(color: .green, isMetallic: false)
             ]
-          }
-        )
-        
-        newSwitch.transform = Transform(
-          scale: .init(repeating: 0.15), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0, 0.20, -0.25]
-        )
-        
-        let stepper = RUIStepper(upTrigger: { _ in
-          print("positive tapped")
-        }, downTrigger: { _ in
-          print("negative tapped")
-        })
-        
-        stepper.transform = Transform(
-            scale: .init(repeating: 0.15), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0.5, 0.20, -0.25]
-        )
-        
-        let newSlider = RUISlider(
-          slider: SliderComponent(startingValue: 0.5, isContinuous: true)
-        ) { (slider, _) in
-            box.scale.x = slider.value + 0.5
+            print("testing 1 2 3")
+            
+            
         }
+
+        testAnchor.addChild(clickySphere)
+        arView.scene.addAnchor(testAnchor)
         
-        newSlider.transform = Transform(
-          scale: .init(repeating: 0.10), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0, 0.50, -0.25]
-        )
+//         let anchor = AnchorEntity(plane: .horizontal)
         
-        
-        anchor.addChild(newSwitch)
-        anchor2.addChild(box)
-        anchor3.addChild(stepper)
-        anchor4.addChild(newSlider)
-        
-        arView.scene.anchors.append(anchor)
-        arView.scene.anchors.append(anchor2)
-        arView.scene.anchors.append(anchor3)
-        arView.scene.anchors.append(anchor4)
+//        let box = ModelEntity(mesh: MeshResource.generateBox(size: 0.1), materials: [SimpleMaterial(color: .red, isMetallic: true)])
+//
+//        box.generateCollisionShapes(recursive: true)
+//
+//        let newSwitch = RUISwitch(
+//          RUI: RUIComponent(respondsToLighting: true),
+//          changedCallback: { mySwitch in
+//              box.model?.materials = [
+//              SimpleMaterial(
+//                color: mySwitch.isOn ? .green : .red,
+//                isMetallic: true
+//              )
+//            ]
+//          }
+//        )
+//
+//        newSwitch.transform = Transform(
+//          scale: .init(repeating: 0.15), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0, 0.20, -0.25]
+//        )
+//
+//        let stepper = RUIStepper(upTrigger: { _ in
+//          print("positive tapped")
+//        }, downTrigger: { _ in
+//          print("negative tapped")
+//        })
+//
+//        stepper.transform = Transform(
+//            scale: .init(repeating: 0.15), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0.5, 0.20, -0.25]
+//        )
+//
+//        let newSlider = RUISlider(
+//          slider: SliderComponent(startingValue: 0.5, isContinuous: true)
+//        ) { (slider, _) in
+//            box.scale.x = slider.value + 0.5
+//        }
+//
+//        newSlider.transform = Transform(
+//          scale: .init(repeating: 0.10), rotation: .init(angle: .pi, axis: [0, 1, 0]), translation: [0, 0.50, -0.25]
+//        )
+//
+//        let text = ModelEntity(mesh: MeshResource.generateText("Incoming Call", extrusionDepth: 0.05, font: .systemFont(ofSize: 0.1), containerFrame: .zero, alignment: .center, lineBreakMode: .byCharWrapping), materials: [SimpleMaterial(color: .green, isMetallic: true)])
+//
+//        text.transform = Transform(translation: [-1.0, 0.20, -0.25]
+//        )
+//
+//        text.ruiSpin(by: [0, 1, 0], period: 1, times: -1)
+//
+//
+//        anchor.addChild(newSwitch)
+//        anchor.addChild(box)
+//        anchor.addChild(stepper)
+//        anchor.addChild(newSlider)
+//        anchor.addChild(text)
+//
+//        arView.scene.anchors.append(anchor)
         
         return arView
         
@@ -98,6 +119,23 @@ struct ARViewContainer: UIViewRepresentable {
     
     func updateUIView(_ uiView: ARView, context: Context) {}
     
+}
+
+/// Example class that uses the HasClick protocol
+class ClickyEntity: Entity, HasClick, HasModel {
+  // Required property from HasClick
+  var tapAction: ((HasClick, SIMD3<Float>?) -> Void)?
+
+    init(model: ModelComponent, tapAction: @escaping ((HasClick, SIMD3<Float>?) -> Void)) {
+    self.tapAction = tapAction
+    super.init()
+    self.model = model
+    self.generateCollisionShapes(recursive: false)
+  }
+
+  required convenience init() {
+     self.init()
+  }
 }
 
 #if DEBUG
